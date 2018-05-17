@@ -7,12 +7,25 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>管理页面</title>
 </head>
-
+<style>
+    #yyy{
+        padding: 80px 50px;
+        border: 5px dashed #ddd;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
+        flex-direction: column;
+    }
+</style>
 <body>
     <audio controls src="http://p8v9i98o2.bkt.clouddn.com/Axero%20-%20Trip.mp3"></audio>
     <div id="yyy">
-        <button id="xxx">upload</button>
+        <span id="xxx">点击或拖拽上传</span>
+        <p>文件大小不得超过40mb</p>
     </div>
+    <div id="uploadStatus"></div>
     <script src="../node_modules/leancloud-storage/dist/av-min.js"></script>
     <script>
         //建立一个app

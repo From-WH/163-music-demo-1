@@ -17,13 +17,56 @@ body{
 /*layout*/
 
 .page{
-
+  display: flex;
+  height: 100vh;
 }
 
 .page > aside{
-
+  width: 300px;
 }
 
 .page > main{
+  flex-grow: 1;
+}
 
+/* aside */
+
+.page > aside{
+  display: flex;
+  flex-direction: column;
+}
+.newSong{
+  text-align: center;
+  padding: 15px;
+}
+.songList{
+  flex-grow: 1;
+  text-align: left;
+  border-top: 3px solid #888;
+}
+.songList > li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+.songList > li:hover{
+  background-color: #d4d4d4;
+}
+.uploadArea{
+
+}
+.draggable{   /*可拖拽区*/
+    padding: 80px 50px;
+    border: 5px dashed #ddd;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 100%;
+    flex-direction: column;
+    cursor: pointer;
+}
+.clickable{
+  height: 100%;
+  width: 100%;
 }

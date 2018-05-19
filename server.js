@@ -22,7 +22,6 @@ var server = http.createServer(function (request, response) {
     /******** 从这里开始看，上面不要看 ************/
 
 
-
     if (path === '/uptoken') {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/json;charset=utf-8')
@@ -32,8 +31,8 @@ var server = http.createServer(function (request, response) {
         var config = fs.readFileSync('./qiniu-key.json')
         config = JSON.parse(config)
 
-        let { accessKey, secretKey } = config;    
-        var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);    
+        let { accessKey, secretKey } = config;
+        var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
         var options = {
             scope: '163-music-demo-1',    //篮子名字  七牛上的项目叫什么就写什么
         };
@@ -51,9 +50,7 @@ var server = http.createServer(function (request, response) {
         response.write('找不到页面')
         response.end()
     }
-
-
-
+            
     //以下为server服务器学习内容：
     // console.log('HTTP 路径为\n' + path)
     // if (path == '/style.css') {

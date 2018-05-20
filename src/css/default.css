@@ -30,7 +30,7 @@ body{
 .page > main{
   flex-grow: 1;
   padding: 20px;
-  background: #d4d4d4;
+  background: #C2D2E2;
 }
 
 /* aside */
@@ -43,8 +43,10 @@ body{
   text-align: center;
   padding: 15px;
 }
-.songList{
+#songList-container{
   flex-grow: 1;
+}
+.songList{
   text-align: left;
   border-top: 3px solid #888;
 }
@@ -53,7 +55,7 @@ body{
   border-bottom: 1px solid #ddd;
 }
 .songList > li:hover{
-  background-color: #d4d4d4;
+  background-color: #C2D2E2;
 }
 .draggable{   /*可拖拽区*/
     padding: 80px 50px;
@@ -92,7 +94,8 @@ body{
   margin-left: 4em;
 }
 .form input[type=text]{
-  padding: 3px 0px;
+  padding: 3px 5px;
+  outline:none;
   border-radius: 5px;
   border: 1px solid #ddd;
 }

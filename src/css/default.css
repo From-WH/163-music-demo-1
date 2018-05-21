@@ -102,6 +102,9 @@ body{
 .form input[type=text]:hover{
   border: 1px solid rgb(148, 148, 250);
 }
+.active{
+  background: #C2D2E2;
+}
 .form input[type=submit],
 .form input[type=button],
 .form button{

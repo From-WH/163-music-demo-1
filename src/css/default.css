@@ -55,7 +55,7 @@ body{
   border-bottom: 1px solid #ddd;
 }
 .songList > li:hover{
-  background-color: #C2D2E2;
+  background-color: rgb(227, 232, 238);
 }
 .draggable{   /*可拖拽区*/
     padding: 80px 50px;
@@ -116,7 +116,4 @@ body{
 }
 .form button:hover{
   background: #999
-}
-main > .form{
-
 }

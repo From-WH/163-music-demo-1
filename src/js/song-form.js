@@ -5,7 +5,6 @@
             this.$el = $(this.el)
         },
         template: `
-            <h2>新建歌曲</h2>
             <form class="form">
                 <div class="row">
                     <label>
@@ -39,6 +38,11 @@
                 html = html.replace(`__${string}__`, data[string] || '')
             })
             $(this.el).html(html)
+            if(data.id){
+                $(this.el).prepend('<h2>编辑歌曲</h2>')
+            }else{
+                $(this.el).prepend('<h2>新建歌曲</h2>')
+            }
         },
         reset(){
             this.render({})
@@ -92,6 +96,15 @@
             window.eventHub.on('select',(data)=>{
                  this.view.render(data)
             })
+            window.eventHub.on('new',()=>{
+                this.model.data = {
+                    name: '',
+                    singer: '',
+                    url: '',
+                    id: ''
+                }
+                this.view.render(data) 
+            })
         },
         bindEvents() {
             this.view.$el.on('submit', 'form', (e) => {
@@ -108,6 +121,7 @@
                     let object = JSON.parse(string)
                     window.eventHub.emit('create',object)
                 })
+
             })
         }
     }

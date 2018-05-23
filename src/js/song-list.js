@@ -21,7 +21,7 @@
         .siblings('.active').removeClass('active')
     },
     clearActive() {
-      // $(this.el).find('.active'), removeClass('active')
+       $(this.el).find('.active').removeClass('active')
     }
   }
   let model = {
@@ -45,6 +45,7 @@
       this.view.render(this.model.data)
       this.bindEvent()
       this.getAllSongs()
+      this.bindEventHub()
     },
     getAllSongs(){
       return this.model.find().then(()=>{
@@ -73,6 +74,9 @@
       window.eventHub.on('create', (songData) => {
         this.model.data.songs.push(songData)
         this.view.render(this.model.data)
+      })
+      window.eventHub.on('new',()=>{
+        this.view.clearActive()
       })
     }
   }

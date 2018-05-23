@@ -103,7 +103,7 @@
                     url: '',
                     id: ''
                 }
-                this.view.render(data) 
+                this.view.render(this.model.data)
             })
         },
         bindEvents() {

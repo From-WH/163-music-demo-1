@@ -15,20 +15,20 @@
       this.modle = modle
       this.view.render(this.modle.data)
       this.active()
-      window.eventHub.on('upload', (data) => {
+      window.eventHub.on('new', (data) => {
         this.active()
       })
-      window.eventHub.on('select',(data)=>{
-        console.log(data.id)
+      window.eventHub.on('select', (data) => {
         this.deactive()
       })
-      $(this.view.el).on('click',this.active.bind(this))
+      $(this.view.el).on('click', () => {
+        window.eventHub.emit('new')
+      })
     },
     active() {
       $(this.view.el).addClass('active')
-      window.eventHub.emit('new')
     },
-    deactive(){
+    deactive() {
       $(this.view.el).removeClass('active')
     }
   }

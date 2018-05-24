@@ -32,19 +32,19 @@
             </form>
         `,
         render(data = {}) {  //ES6新语法
-            let placeHoders = ['name', 'singer','url','id']
+            let placeHoders = ['name', 'singer', 'url', 'id']
             let html = this.template
             placeHoders.map((string) => {
                 html = html.replace(`__${string}__`, data[string] || '')
             })
             $(this.el).html(html)
-            if(data.id){
+            if (data.id) {
                 $(this.el).prepend('<h2>编辑歌曲</h2>')
-            }else{
+            } else {
                 $(this.el).prepend('<h2>新建歌曲</h2>')
             }
         },
-        reset(){
+        reset() {
             this.render({})
         }
     }
@@ -54,7 +54,7 @@
             singer: '',
             url: '',
             id: ''
-        }, 
+        },
         create(data) {
             // 声明类型
             var Song = AV.Object.extend('Song');
@@ -64,23 +64,23 @@
             song.set('name', data.name);
             song.set('singer', data.singer);
             song.set('url', data.url);
-            return song.save().then( (newSong)=> {   //如果save成功了会得到一个新的song
-                let {id,attributes} = newSong
+            return song.save().then((newSong) => {   //如果save成功了会得到一个新的song
+                let { id, attributes } = newSong
                 // this.data.id = id
                 // this.data.name = attributes.name
                 // this.data.singer = attributes.singer
                 // this.data.url = attributes.url
-                Object.assign(this.data,{     //这五行等于上面五行
+                Object.assign(this.data, {     //这五行等于上面五行
                     id,
                     ...attributes, //
                     // name:attributes.name,
                     // singer:attributes.singer,
                     // url:attributes.url
                 })
-            }, (error)=> {
+            }, (error) => {
                 console.error(error);
             });
-        }   
+        }
     }
     let controller = {
         init(view, model) {
@@ -89,19 +89,16 @@
             this.model = model
             this.view.render(this.model.data)
             this.bindEvents()
-            window.eventHub.on('upload', (data) => {
-                this.model.data = data
-                this.view.render(this.model.data)
+            window.eventHub.on('select', (data) => {
+                this.view.render(data)
             })
-            window.eventHub.on('select',(data)=>{
-                 this.view.render(data)
-            })
-            window.eventHub.on('new',()=>{
-                this.model.data = {
-                    name: '',
-                    singer: '',
-                    url: '',
-                    id: ''
+            window.eventHub.on('new', (data) => {
+                if (this.model.data.id) {
+                    this.model.data = {
+                        name: '', singer: '', url: '', id: ''
+                    }
+                } else {
+                    Object.assign(this.model.data, data)
                 }
                 this.view.render(this.model.data)
             })
@@ -115,12 +112,12 @@
                     data[string] = this.view.$el.find(`[name="${string}"]`).val()
                 })
                 this.model.create(data)
-                .then(()=>{
-                    this.view.reset()
-                    let string = JSON.stringify(this.model.data)    //深拷贝
-                    let object = JSON.parse(string)
-                    window.eventHub.emit('create',object)
-                })
+                    .then(() => {
+                        this.view.reset()
+                        let string = JSON.stringify(this.model.data)    //深拷贝
+                        let object = JSON.parse(string)
+                        window.eventHub.emit('create', object)
+                    })
 
             })
         }

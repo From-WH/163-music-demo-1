@@ -102,7 +102,9 @@
             this.view.render(this.model.data)
             this.bindEvents()
             window.eventHub.on('select', (data) => {
-                this.view.render(data)
+                console.log(data)
+                this.model.data = data
+                this.view.render(this.model.data)
             })
             window.eventHub.on('new', (data) => {
                 if (this.model.data.id) {
@@ -142,9 +144,11 @@
             this.view.$el.on('submit', 'form', (e)=>{
                 e.preventDefault()
                 if(this.model.data.id){
+                    console.log('1111')
                   this.update()
                 }else{
                   this.create()
+                  console.log('2222')
                 }
               })
         }

@@ -128,6 +128,7 @@ body{
   top: 0;
   left: 0;
   z-index: 1;
+ pointer-events: none;   /* 使得div无法阻挡点击后面的元素 */
 }
 .site-Loading.active{
   visibility: visible;

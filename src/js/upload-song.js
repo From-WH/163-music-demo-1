@@ -34,8 +34,10 @@
           },
           'UploadProgress': function (up, file) {
             // 每个文件上传时,处理相关的事情
+            window.eventHub.emit('uploading')
           },
           'FileUploaded': function (up, file, info) {
+            window.eventHub.emit('afterUpload')
             var domain = up.getOption('domain');
             var response = JSON.parse(info.response);
             var sourceLink = 'http://' + domain + '/' + encodeURIComponent(response.key)  //res.key; 获取上传成功后的文件的Url

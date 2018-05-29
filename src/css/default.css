@@ -97,7 +97,7 @@ body{
   padding: 3px 5px;
   outline:none;
   border-radius: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid rgb(231, 221, 221);
 }
 .form input[type=text]:hover{
   border: 1px solid rgb(148, 148, 250);

@@ -26,19 +26,28 @@
                     </label>
                     <input name="url" type="text" value="__url__">
                 </div>
+
                 <div class="row">
                 <label>
                     封面
                 </label>
                 <input name="cover" type="text" value="__cover__">
-            </div>
+                </div>
+                
+                <div class="row">
+                <label>
+                    歌词
+                </label>
+                <textarea cols=100 rows=10 name="lyrics">__lyrics__</textarea>            
+                </div>
+
                 <div class="row actions">
                     <button type="submit">保存</button>
                 </div>
             </form>
         `,
         render(data = {}) {  //ES6新语法
-            let placeHoders = ['name', 'singer', 'url', 'id', 'cover']
+            let placeHoders = ['name', 'singer', 'url', 'id', 'cover', 'lyrics']
             let html = this.template
             placeHoders.map((string) => {
                 html = html.replace(`__${string}__`, data[string] || '')
@@ -60,7 +69,8 @@
             singer: '',
             url: '',
             id: '',
-            cover: ''
+            cover: '',
+            lyrics: ''
         },
         update(data) {
             var song = AV.Object.createWithoutData('Song', this.data.id)
@@ -69,6 +79,7 @@
             song.set('singer', data.singer)
             song.set('url', data.url)
             song.set('cover', data.cover)
+            song.set('lyrics', data.lyrics)
             // 保存到云端
             return song.save().then((response) => {
                 Object.assign(this.data, data)
@@ -81,10 +92,11 @@
             // 新建对象
             var song = new Song();
             // 设置名称
-            song.set('name', data.name);
-            song.set('singer', data.singer);
-            song.set('url', data.url);
-            song.set('cover', data.cover);
+            song.set('name', data.name)
+            song.set('singer', data.singer)
+            song.set('url', data.url)
+            song.set('cover', data.cover)
+            song.set('lyrics', data.lyrics)
             return song.save().then((newSong) => {   //如果save成功了会得到一个新的song
                 let { id, attributes } = newSong
                 // this.data.id = id
@@ -117,7 +129,7 @@
             window.eventHub.on('new', (data) => {
                 if (this.model.data.id) {
                     this.model.data = {
-                        name: '', singer: '', url: '', id: '', cover:'',
+                        name: '', singer: '', url: '', id: '', cover: '', lyrics: ''
                     }
                 } else {
                     Object.assign(this.model.data, data)
@@ -126,7 +138,7 @@
             })
         },
         create() {
-            let needs = 'name singer url cover'.split(' ') //通过空格得到一个数组，这个数组包含三个字符串
+            let needs = 'name singer url cover lyrics'.split(' ') //通过空格得到一个数组，这个数组包含三个字符串
             let data = {}
             needs.map((string) => {
                 data[string] = this.view.$el.find(`[name="${string}"]`).val()
@@ -138,7 +150,7 @@
                 })
         },
         update() {
-            let needs = 'name singer url cover'.split(' ') //通过空格得到一个数组，这个数组包含三个字符串
+            let needs = 'name singer url cover lyrics'.split(' ') //通过空格得到一个数组，这个数组包含三个字符串
             let data = {}
             needs.map((string) => {
                 data[string] = this.view.$el.find(`[name="${string}"]`).val()

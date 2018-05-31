@@ -26,13 +26,19 @@
                     </label>
                     <input name="url" type="text" value="__url__">
                 </div>
+                <div class="row">
+                <label>
+                    封面
+                </label>
+                <input name="cover" type="text" value="__cover__">
+            </div>
                 <div class="row actions">
                     <button type="submit">保存</button>
                 </div>
             </form>
         `,
         render(data = {}) {  //ES6新语法
-            let placeHoders = ['name', 'singer', 'url', 'id']
+            let placeHoders = ['name', 'singer', 'url', 'id', 'cover']
             let html = this.template
             placeHoders.map((string) => {
                 html = html.replace(`__${string}__`, data[string] || '')
@@ -53,7 +59,8 @@
             name: '',
             singer: '',
             url: '',
-            id: ''
+            id: '',
+            cover: ''
         },
         update(data) {
             var song = AV.Object.createWithoutData('Song', this.data.id)
@@ -61,6 +68,7 @@
             song.set('name', data.name);
             song.set('singer', data.singer)
             song.set('url', data.url)
+            song.set('cover', data.cover)
             // 保存到云端
             return song.save().then((response) => {
                 Object.assign(this.data, data)
@@ -76,6 +84,7 @@
             song.set('name', data.name);
             song.set('singer', data.singer);
             song.set('url', data.url);
+            song.set('cover', data.cover);
             return song.save().then((newSong) => {   //如果save成功了会得到一个新的song
                 let { id, attributes } = newSong
                 // this.data.id = id
@@ -102,14 +111,13 @@
             this.view.render(this.model.data)
             this.bindEvents()
             window.eventHub.on('select', (data) => {
-                console.log(data)
                 this.model.data = data
                 this.view.render(this.model.data)
             })
             window.eventHub.on('new', (data) => {
                 if (this.model.data.id) {
                     this.model.data = {
-                        name: '', singer: '', url: '', id: ''
+                        name: '', singer: '', url: '', id: '', cover:'',
                     }
                 } else {
                     Object.assign(this.model.data, data)
@@ -118,7 +126,7 @@
             })
         },
         create() {
-            let needs = 'name singer url'.split(' ') //通过空格得到一个数组，这个数组包含三个字符串
+            let needs = 'name singer url cover'.split(' ') //通过空格得到一个数组，这个数组包含三个字符串
             let data = {}
             needs.map((string) => {
                 data[string] = this.view.$el.find(`[name="${string}"]`).val()
@@ -130,7 +138,7 @@
                 })
         },
         update() {
-            let needs = 'name singer url'.split(' ') //通过空格得到一个数组，这个数组包含三个字符串
+            let needs = 'name singer url cover'.split(' ') //通过空格得到一个数组，这个数组包含三个字符串
             let data = {}
             needs.map((string) => {
                 data[string] = this.view.$el.find(`[name="${string}"]`).val()
@@ -141,16 +149,16 @@
                 })
         },
         bindEvents() {
-            this.view.$el.on('submit', 'form', (e)=>{
+            this.view.$el.on('submit', 'form', (e) => {
                 e.preventDefault()
-                if(this.model.data.id){
+                if (this.model.data.id) {
                     console.log('1111')
-                  this.update()
-                }else{
-                  this.create()
-                  console.log('2222')
+                    this.update()
+                } else {
+                    this.create()
+                    console.log('2222')
                 }
-              })
+            })
         }
     }
     controller.init(view, model)

@@ -45,8 +45,8 @@
     showLyric(time) {
       let allP = this.$el.find('.lyric>.lines>p')
       let p
-      for (let i = 0; i < allP.length; i++) {
-        if (i === allP.length - 1) {
+      for (let i = 0; i<allP.length; i++) {
+        if (i === allP.length-1) {
           p = allP[i]
           break
         } else {
@@ -59,10 +59,8 @@
         }
       }
       let pHeight = p.getBoundingClientRect().top
-      console.log(pHeight)
       let linesHeight = this.$el.find('.lyric>.lines')[0].getBoundingClientRect().top
       let height = pHeight - linesHeight
-      console.log(height)
       this.$el.find('.lyric>.lines').css({
         transform: `translateY(${-(height - 25)}px)`
       })
@@ -70,7 +68,6 @@
     },
     play() {
       this.$el.find('audio')[0].play()
-      console.log(2)
     },
     pause() {
       this.$el.find('audio')[0].pause()
@@ -89,7 +86,7 @@
     get(id) {
       var query = new AV.Query('Song');
       return query.get(id).then((song) => {
-        Object.assign(this.data.song, { id: song.id, ...song.attributes })
+        Object.assign(this.data.song, { id: song.id}, song.attributes )
         return song
       })
     }

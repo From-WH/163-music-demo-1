@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>管理页面</title>
+  <link rel="stylesheet" href="./css/default.css">
+</head>
+
+<body>
+  <div class="playlistForm-wrapper">
+    <h1>创建歌单</h1>
+    <form class="playlistForm">
+      <div class="row">
+        <label for="">歌单名称:
+          <input type="text" name="name">
+        </label>
+      </div>
+
+      <div class="row">
+        <label>歌单简介:
+          <textarea name="summary" cols="30" rows="10"></textarea>
+        </label>
+      </div>
+
+      <div class="row">
+        <button type="submit">确认</button>
+      </div>
+    </form>
+  </div>
+
+
+  <script src="../node_modules/leancloud-storage/dist/av-min.js"></script>
+  <script src="./initializers/av.js"></script>
+  <script src="../vendors/jquery-3.3.1.min.js"></script>
+  <script src="./js/admin/event-hub.js"></script>
+  <script>
+    {
+      let view = {
+        el: '.playlistForm-wrapper',
+        init() {
+          this.$el = $(this.el)
+          this.$form = this.$el.find('form')
+        }
+      }
+      let model = {
+
+        create(data) {
+          var Playlist = AV.Object.extend('Playlist');
+          var playlist = new Playlist();
+          playlist.set('name',data.name )
+          playlist.set('summary', data.summary)
+          playlist.save().then((newPlaylist) => {
+            console.log(newPlaylist)
+          }, (error) => {
+            console.error(error);
+          });
+        }
+      }
+      let controller = {
+        init(view, model) {
+          this.view = view
+          this.model = model
+          this.view.init()
+          this.bindEvents()
+        },
+        bindEvents() {
+          this.view.$el.on('click', 'form', (e) => {
+            e.preventDefault()
+            let form = this.view.$form.get(0)
+            let keys = ['name', 'summary']   // 这几行等于下面的四行
+            let data = {}
+            keys.reduce((prev, item) => {
+              prev[item] = form[item].value
+              return prev
+            }, data)
+            console.log(data)
+            // let data = {            
+            //   name : form.name.value.trim(),
+            //   summary : form.summary.value.trim()  //trim() 标识多余空格不要
+            // }
+            this.model.create(data)
+          })
+        }
+      }
+      controller.init(view, model)
+    }
+
+    // var Song = AV.Object.extend('Song');
+    // // 新建对象
+    // var song = new Song();
+    // // 设置名称
+    // song.set('name', '3333')
+
+    // var Playlist = AV.Object.extend('Playlist');
+    // var playlist = new Playlist();
+    // playlist.set('name', '测试1111')
+    // playlist.set('summary', '测试2222')
+
+    // song.set('dependent', playlist);// 为广州设置 dependent 属性为广东
+
+    // song.save().then((newSong) => {   //如果save成功了会得到一个新的song
+    //   let { id, attributes } = newSong
+    //   Object.assign(this.data, { id, ...attributes })
+    // });
+
+
+
+    // 声明类型
+    // var Playlist = AV.Object.extend('Playlist');
+    // // 新建对象
+    // var playlist = new playlist();
+    // // 设置名称
+    // playlist.set('name', '测试1')
+    // playlist.set('summary', '测试2')
+    // playlist.save().then((newplaylist) => {
+    //   let { id, attributes } = newplaylist
+    //   console.log(newplaylist)
+    // }, (error) => {
+    //   console.error(error);
+    // });
+  </script>
+
+</body>
+
+</html>

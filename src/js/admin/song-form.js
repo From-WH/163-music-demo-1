@@ -33,7 +33,7 @@
                 </label>
                 <input name="cover" type="text" value="__cover__">
                 </div>
-                
+
                 <div class="row">
                 <label>
                     歌词
@@ -42,7 +42,11 @@
                 </div>
 
                 <div class="row actions">
-                    <button type="submit">保存</button>
+                    <button id="button1" type="submit">保存</button>
+                </div>
+
+                <div class="row actions">
+                <button id="button2" type="del">删除</button>
                 </div>
             </form>
         `,
@@ -113,6 +117,14 @@
             }, (error) => {
                 console.error(error);
             });
+        },
+        del(data) {
+            var Song = AV.Object.createWithoutData('Song', this.data.id);
+            Song.destroy().then(function (success) {
+                // 删除成功
+            }, function (error) {
+                // 删除失败
+            });
         }
     }
     let controller = {
@@ -160,6 +172,17 @@
                     window.eventHub.emit('update', JSON.parse(JSON.stringify(this.model.data)))
                 })
         },
+        del() {
+            let needs = 'name singer url cover lyrics'.split(' ') //通过空格得到一个数组，这个数组包含三个字符串
+            let data = {}
+            needs.map((string) => {
+                data[string] = this.view.$el.find(`[name="${string}"]`).val()
+            })
+            this.model.del(data)
+                .then(() => {
+                    window.eventHub.emit('del', JSON.parse(JSON.stringify(this.model.data)))
+                })
+        },
         bindEvents() {
             this.view.$el.on('submit', 'form', (e) => {
                 e.preventDefault()
@@ -170,6 +193,11 @@
                     this.create()
                     console.log('2222')
                 }
+            })
+            $("#button2").on('click', (e) => {
+                e.preventDefault()
+                this.model.del()
+                console.log('3333')
             })
         }
     }

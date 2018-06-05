@@ -31,7 +31,6 @@
           'FilesAdded':  (up, files) => {
             plupload.each(files,  (file)=> {
               // 文件添加进队列后,处理相关的事情
-
             });
           },
           'BeforeUpload':  (up, file) =>{
@@ -46,7 +45,6 @@
           },
           'UploadProgress':  (up, file) => {
             // 每个文件上传时,处理相关的事情
-
           },
           'FileUploaded':  (up, file, info) =>{
             window.eventHub.emit('afterUpload')
